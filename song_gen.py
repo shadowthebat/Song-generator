@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 import requests
 import random
 import re
-from lyrictyping import *
 
 # GENERATES RANDOM SONG OBJECT with print methods
 # PS: DO NOT SEND TOO MANY REQUESTS
@@ -110,8 +109,11 @@ def songg(nextnext, x):
             ooo = i.group(0)
 
         album = ooo[:-1]
-        album_start_index = album.index(':')
-        album = album[album_start_index+2:]
+        try:
+            album_start_index = album.index(':')
+            album = album[album_start_index+2:]
+        except ValueError:
+            pass
         a = ''  # empty album string
         for i in album:
             if i != '\"':
