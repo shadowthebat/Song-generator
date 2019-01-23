@@ -17,17 +17,17 @@ class Song:
         self.album = album
         self.lyrics = lyrics
 
-    def ptitle():
-        print('self.title')
+    def ptitle(self):
+        print(self.title)
 
-    def partist():
-        print('self.artist')
+    def partist(self):
+        print(self.artist)
 
-    def palbum():
-        print('self.album')
+    def palbum(self):
+        print(self.album)
 
-    def plyrics():
-        print('self.lyrics')
+    def plyrics(self):
+        print(self.lyrics)
 
 
 def letterlinks():
@@ -70,9 +70,9 @@ def songg(nextnext, x):
     for i in range(int(x)):
         try:
             source = requests.get(random.choice(nextnext))
+            soup = BeautifulSoup(source.text, 'lxml')
         except IndexError:
             print('IndexError Occured.  Couldn\'t create song links')
-        soup = BeautifulSoup(source.text, 'lxml')
 
         pattern = re.compile(r'\n+".+"\slyrics')  # start of song
         matches = pattern.finditer(soup.text)
