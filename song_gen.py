@@ -11,11 +11,12 @@ import re
 
 
 class Song:
-    def __init__(self, title, artist, album, lyrics):
+    def __init__(self, title, artist, album, lyrics, vlink):
         self.title = title
         self.artist = artist
         self.album = album
         self.lyrics = lyrics
+        self.vlink = vlink
 
     def ptitle(self):
         print(self.title)
@@ -28,6 +29,9 @@ class Song:
 
     def plyrics(self):
         print(self.lyrics)
+
+    def pvlink(self):
+        print(self.vlink)
 
 
 def letterlinks():
@@ -123,7 +127,22 @@ def songg(nextnext, x):
         artistname = soup.text[aname:sname-3]
         songname = soup.text[sname:fend-3]
 
-        result = Song(title, artist, album, thesong)
+        # add youtube video link to song object
+        t = title
+        yttitle = title.replace(' ', '+')
+        ytartist = artist.replace(' ', '+')
+        yt_query = '+'.join([yttitle, ytartist])
+        url = f'https://www.youtube.com/results?search_query={yt_query}+vevo'
+        source = requests.get(url)
+        soup = BeautifulSoup(source.text, 'lxml')
+        a = soup.find_all('a')
+        for i in a:
+            if t in i.text:
+                b = i['href']
+                break
+        url = f'https://www.youtube.com{b}'
+
+        result = Song(title, artist, album, thesong, url)
         return result
 
 
